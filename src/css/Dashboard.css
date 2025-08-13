@@ -40,8 +40,8 @@
 }
 
 .dashboard-logo {
-    width: 120px;
-    height: 48px;
+    width: 70px;
+    height: auto;
     object-fit: contain;
 }
 
@@ -507,8 +507,8 @@
     }
     
     .dashboard-logo {
-        width: 100px;
-        height: 40px;
+        width: 50px;
+        height: auto;
     }
     
     .dashboard-title {
