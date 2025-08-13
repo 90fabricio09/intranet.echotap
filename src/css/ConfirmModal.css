@@ -1,0 +1,227 @@
+/* Importar fonte Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Modal de Confirmação */
+.confirm-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.confirm-modal-content {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+    animation: slideUp 0.3s ease-out;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.confirm-modal-header {
+    padding: 32px 32px 24px;
+    text-align: center;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.confirm-modal-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 2rem;
+    color: white;
+}
+
+.confirm-modal-icon.danger {
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+}
+
+.confirm-modal-icon.warning {
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+}
+
+.confirm-modal-icon.info {
+    background: linear-gradient(135deg, #2563EB, #3b82f6);
+}
+
+.confirm-modal-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.confirm-modal-body {
+    padding: 24px 32px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+}
+
+.confirm-modal-message {
+    font-size: 1rem;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.5;
+    max-width: 100%;
+}
+
+.confirm-modal-footer {
+    padding: 24px 32px 32px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    border-top: 1px solid #f3f4f6;
+}
+
+.confirm-modal-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+    justify-content: center;
+}
+
+.confirm-modal-button.secondary {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.confirm-modal-button.secondary:hover {
+    background: #e5e7eb;
+    color: #111827;
+    transform: translateY(-1px);
+}
+
+.confirm-modal-button.primary {
+    color: white;
+}
+
+.confirm-modal-button.primary.danger {
+    background: #dc2626;
+}
+
+.confirm-modal-button.primary.danger:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+}
+
+.confirm-modal-button.primary.warning {
+    background: #f59e0b;
+}
+
+.confirm-modal-button.primary.warning:hover {
+    background: #d97706;
+    transform: translateY(-1px);
+}
+
+.confirm-modal-button.primary.info {
+    background: #2563EB;
+}
+
+.confirm-modal-button.primary.info:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.confirm-modal-button:active {
+    transform: translateY(0);
+}
+
+.confirm-modal-button i {
+    font-size: 0.875rem;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .confirm-modal-backdrop {
+        padding: 10px;
+    }
+
+    .confirm-modal-content {
+        border-radius: 12px;
+        max-width: none;
+    }
+
+    .confirm-modal-header {
+        padding: 24px 20px 20px;
+    }
+
+    .confirm-modal-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 1.75rem;
+        margin-bottom: 12px;
+    }
+
+    .confirm-modal-title {
+        font-size: 1.125rem;
+    }
+
+    .confirm-modal-body {
+        padding: 20px;
+        min-height: 70px;
+    }
+
+    .confirm-modal-message {
+        font-size: 0.9rem;
+    }
+
+    .confirm-modal-footer {
+        padding: 20px;
+        flex-direction: column;
+    }
+
+    .confirm-modal-button {
+        flex: none;
+        width: 100%;
+    }
+}
