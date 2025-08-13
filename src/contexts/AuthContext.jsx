@@ -3,7 +3,9 @@ import {
     signInWithEmailAndPassword, 
     signOut, 
     onAuthStateChanged,
-    createUserWithEmailAndPassword 
+    createUserWithEmailAndPassword,
+    sendPasswordResetEmail,
+    fetchSignInMethodsForEmail
 } from 'firebase/auth';
 import { auth } from '../config/firebase';
 
@@ -54,6 +56,23 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Redefinição de senha
+    const resetPassword = async (email) => {
+        try {
+            // Verifica se o email existe para provider "password"
+            const methods = await fetchSignInMethodsForEmail(auth, email);
+            if (!methods || methods.length === 0 || !methods.includes('password')) {
+                return { success: false, code: 'auth/user-not-found', error: 'Usuário não encontrado' };
+            }
+
+            await sendPasswordResetEmail(auth, email);
+            return { success: true };
+        } catch (error) {
+            console.error('Erro ao enviar email de redefinição:', error);
+            return { success: false, error: error.message, code: error.code };
+        }
+    };
+
     // Verificar se usuário está logado
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -69,6 +88,7 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         createEmployee,
+        resetPassword,
         loading
     };
 

@@ -129,10 +129,10 @@
 /* Opções do formulário */
 .form-options {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 32px;
-    font-size: 0.875rem;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
 }
 
 .checkbox-container {
@@ -180,6 +180,33 @@
 .forgot-password:hover {
     color: #1d4ed8;
     text-decoration: underline;
+}
+
+/* Campo de senha com olhinho */
+.password-input-container {
+    position: relative;
+}
+
+.password-input {
+    padding-right: 44px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+}
+
+.password-toggle:hover {
+    background: #f3f4f6;
+    color: #2563EB;
 }
 
 /* Botão de login */

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import '../css/Home.css';
 import logo from '../assets/logo.png';
 import { useAuth } from '../contexts/AuthContext';
@@ -19,6 +19,7 @@ const Home = () => {
         password: ''
     });
     const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleInputChange = (field, value) => {
         setFormData(prev => ({
@@ -103,26 +104,29 @@ const Home = () => {
                             <i className="bi bi-lock"></i>
                             Senha
                         </label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={formData.password}
-                            onChange={(e) => handleInputChange('password', e.target.value)}
-                            placeholder="Digite sua senha"
-                            className="form-input"
-                            required
-                        />
+                        <div className="password-input-container">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                id="password"
+                                value={formData.password}
+                                onChange={(e) => handleInputChange('password', e.target.value)}
+                                placeholder="Digite sua senha"
+                                className="form-input password-input"
+                                required
+                            />
+                            <button
+                                type="button"
+                                className="password-toggle"
+                                onClick={() => setShowPassword(prev => !prev)}
+                                aria-label="Mostrar/ocultar senha"
+                            >
+                                <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                            </button>
+                        </div>
                     </div>
 
                     <div className="form-options">
-                        <label className="checkbox-container">
-                            <input type="checkbox" className="checkbox-input" />
-                            <span className="checkbox-checkmark"></span>
-                            Lembrar de mim
-                        </label>
-                        <a href="#" className="forgot-password">
-                            Esqueci minha senha
-                        </a>
+                        <Link to="/forgot-password" className="forgot-password">Esqueci minha senha</Link>
                     </div>
 
                     <button 
