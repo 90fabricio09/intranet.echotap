@@ -33,6 +33,7 @@
 /* Container principal */
 .login-container {
     min-height: 100vh;
+    min-height: 100dvh;
     background: #ffffff;
     display: flex;
     align-items: center;
@@ -290,7 +291,7 @@
         border-radius: 0;
         box-shadow: none;
         border: none;
-        min-height: 100vh;
+        min-height: auto;
         display: flex;
         flex-direction: column;
         justify-content: center;
