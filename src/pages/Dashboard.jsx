@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../css/Dashboard.css';
 import logo from '../assets/logo.png';
 import { useAuth } from '../contexts/AuthContext';
-import { createCard, getAllCards, deleteCard } from '../services/cardService';
+import { createCard, getAllCards, deleteCard, resetCardConfig } from '../services/cardService';
 import { useNotification } from '../contexts/NotificationContext';
 import CardCreatedModal from '../components/CardCreatedModal';
 import ConfirmModal from '../components/ConfirmModal';
@@ -130,6 +130,29 @@ const Dashboard = () => {
                 }
             },
             'danger'
+        );
+    };
+
+    const handleResetConfig = (cardId, cardCode) => {
+        openConfirmModal(
+            'Resetar Configurações',
+            `Tem certeza que deseja resetar as configurações do cartão "${cardCode}"? O cartão voltará ao estado "não configurado" e todas as configurações serão perdidas.`,
+            async () => {
+                try {
+                    const result = await resetCardConfig(cardId);
+                    
+                    if (result.success) {
+                        await loadCards();
+                        showSuccess('Configurações resetadas com sucesso!');
+                    } else {
+                        showError('Erro ao resetar configurações: ' + result.error);
+                    }
+                } catch (error) {
+                    console.error('Erro ao resetar configurações:', error);
+                    showError('Erro ao resetar configurações. Tente novamente.');
+                }
+            },
+            'warning'
         );
     };
 
@@ -358,6 +381,15 @@ const Dashboard = () => {
                                     </div>
 
                                     <div className="card-actions">
+                                        {card.configured && (
+                                            <button
+                                                onClick={() => handleResetConfig(card.id, card.code)}
+                                                className="reset-btn"
+                                                title="Resetar configurações"
+                                            >
+                                                <i className="bi bi-arrow-clockwise"></i>
+                                            </button>
+                                        )}
                                         <button
                                             onClick={() => handleDeleteCard(card.id, card.code)}
                                             className="delete-btn"
@@ -389,7 +421,7 @@ const Dashboard = () => {
                 title={confirmModalData.title}
                 message={confirmModalData.message}
                 type={confirmModalData.type}
-                confirmText={confirmModalData.type === 'info' ? 'Criar' : confirmModalData.type === 'warning' ? 'Sair' : 'Excluir'}
+                confirmText={confirmModalData.type === 'info' ? 'Criar' : confirmModalData.type === 'warning' ? (confirmModalData.title === 'Resetar Configurações' ? 'Resetar' : 'Sair') : 'Excluir'}
                 cancelText="Cancelar"
             />
         </div>

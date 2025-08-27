@@ -218,3 +218,33 @@ export const updateLastUsed = async (cardId) => {
         };
     }
 };
+
+// Resetar configurações do cartão
+export const resetCardConfig = async (cardId) => {
+    try {
+        const cardRef = doc(db, CARDS_COLLECTION, cardId);
+        
+        await updateDoc(cardRef, {
+            configured: false,
+            config: {
+                name: '',
+                bio: '',
+                profilePhoto: '',
+                themeColor: '#2563EB',
+                links: []
+            },
+            owner: null,
+            lastUsed: null
+        });
+
+        return {
+            success: true
+        };
+    } catch (error) {
+        console.error('Erro ao resetar configurações:', error);
+        return {
+            success: false,
+            error: error.message
+        };
+    }
+};
