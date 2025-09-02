@@ -59,17 +59,21 @@ export const AuthProvider = ({ children }) => {
     // Redefinição de senha
     const resetPassword = async (email) => {
         try {
-            // Verifica se o email existe para provider "password"
-            const methods = await fetchSignInMethodsForEmail(auth, email);
-            if (!methods || methods.length === 0 || !methods.includes('password')) {
-                return { success: false, code: 'auth/user-not-found', error: 'Usuário não encontrado' };
-            }
-
+            // Envia o email de redefinição diretamente
+            // O Firebase irá lidar com emails inexistentes internamente
             await sendPasswordResetEmail(auth, email);
             return { success: true };
         } catch (error) {
             console.error('Erro ao enviar email de redefinição:', error);
-            return { success: false, error: error.message, code: error.code };
+            
+            // Mapeia os códigos de erro do Firebase para mensagens amigáveis
+            if (error.code === 'auth/invalid-email') {
+                return { success: false, code: 'auth/invalid-email', error: 'Email inválido' };
+            } else if (error.code === 'auth/too-many-requests') {
+                return { success: false, code: 'auth/too-many-requests', error: 'Muitas tentativas. Tente novamente mais tarde' };
+            } else {
+                return { success: false, error: error.message, code: error.code };
+            }
         }
     };
 

@@ -27,14 +27,12 @@ const ForgotPassword = () => {
     try {
         const result = await resetPassword(email);
         if (result.success) {
-            showSuccess('Enviamos um link de redefinição para seu email.');
+            showSuccess('Se o email estiver cadastrado, você receberá um link de redefinição.');
             setEmail('');
         } else {
             // Mapeia códigos do Firebase para mensagens amigáveis
             let message = 'Não foi possível enviar o email de redefinição';
-            if (result.code === 'auth/user-not-found') {
-                message = 'Email não encontrado no sistema';
-            } else if (result.code === 'auth/invalid-email') {
+            if (result.code === 'auth/invalid-email') {
                 message = 'Email inválido';
             } else if (result.code === 'auth/too-many-requests') {
                 message = 'Muitas tentativas. Tente novamente mais tarde';
@@ -101,7 +99,7 @@ const ForgotPassword = () => {
 					<p className="footer-text">
 						<Link to="/" className="forgot-password">
 							<i className="bi bi-arrow-left"></i>
-							Voltar para login
+							{' '}Voltar para login
 						</Link>
 					</p>
 				</div>

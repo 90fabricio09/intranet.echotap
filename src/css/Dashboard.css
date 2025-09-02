@@ -456,6 +456,25 @@
     transform: translateY(-1px);
 }
 
+.copy-btn {
+    background: #dbeafe;
+    color: #2563eb;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+}
+
+.copy-btn:hover {
+    background: #bfdbfe;
+    transform: translateY(-1px);
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     .dashboard-container {

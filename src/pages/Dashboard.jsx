@@ -156,6 +156,17 @@ const Dashboard = () => {
         );
     };
 
+    const handleCopyLink = async (cardCode) => {
+        try {
+            const cardLink = `config.echotap.com.br/view?code=${cardCode}`;
+            await navigator.clipboard.writeText(cardLink);
+            showSuccess('Link do cartão copiado para a área de transferência!');
+        } catch (error) {
+            console.error('Erro ao copiar link:', error);
+            showError('Erro ao copiar link. Tente novamente.');
+        }
+    };
+
     const handleLogout = () => {
         openConfirmModal(
             'Sair do Sistema',
@@ -183,6 +194,58 @@ const Dashboard = () => {
                             (configFilter === 'not-configured' && !card.configured);
         
         return matchesSearch && matchesConfig;
+    }).sort((a, b) => {
+        // Primeiro: separar cartões configurados e não configurados
+        if (a.configured !== b.configured) {
+            // Cartões não configurados ficam em cima
+            return a.configured ? 1 : -1;
+        }
+        
+        // Para cartões não configurados: ordenar por data de criação (mais recente primeiro)
+        if (!a.configured && !b.configured) {
+            const getCreatedDate = (card) => {
+                if (!card.createdAt) return new Date(0);
+                
+                if (card.createdAt.toDate) {
+                    return card.createdAt.toDate();
+                }
+                
+                if (card.createdAt.seconds) {
+                    return new Date(card.createdAt.seconds * 1000);
+                }
+                
+                return new Date(card.createdAt);
+            };
+            
+            const dateA = getCreatedDate(a);
+            const dateB = getCreatedDate(b);
+            
+            return dateB - dateA; // Mais recente primeiro
+        }
+        
+        // Para cartões configurados: ordenar por último uso (mais recente primeiro)
+        if (a.configured && b.configured) {
+            const getLastUsedDate = (card) => {
+                if (!card.lastUsed) return new Date(0);
+                
+                if (card.lastUsed.toDate) {
+                    return card.lastUsed.toDate();
+                }
+                
+                if (card.lastUsed.seconds) {
+                    return new Date(card.lastUsed.seconds * 1000);
+                }
+                
+                return new Date(card.lastUsed);
+            };
+            
+            const dateA = getLastUsedDate(a);
+            const dateB = getLastUsedDate(b);
+            
+            return dateB - dateA; // Mais recente primeiro
+        }
+        
+        return 0;
     });
 
     const formatDate = (timestamp) => {
@@ -381,6 +444,13 @@ const Dashboard = () => {
                                     </div>
 
                                     <div className="card-actions">
+                                        <button
+                                            onClick={() => handleCopyLink(card.code)}
+                                            className="copy-btn"
+                                            title="Copiar link do cartão"
+                                        >
+                                            <i className="bi bi-link-45deg"></i>
+                                        </button>
                                         {card.configured && (
                                             <button
                                                 onClick={() => handleResetConfig(card.id, card.code)}
